@@ -2,10 +2,7 @@
         
         $email = $_POST['cpemail'];
         
-        $servername = "sql13.bravehost.com";
-        $username = "lhall";
-        $password = "Lolipop0";
-        $dbname = "dwDatabase_2820268";
+        include 'mysql-credentials.php';
         $cookie_name = "dwvisited";
 	    $cookie_value = "yes";
 

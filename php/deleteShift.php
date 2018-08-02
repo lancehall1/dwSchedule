@@ -5,10 +5,7 @@
         die();
     }
     $ID = $_POST['ID'];
-    $servername = "sql13.bravehost.com";
-    $username = "lhall";
-    $password = "Lolipop0";
-    $dbname = "dwDatabase_2820268";
+    include 'mysql-credentials.php';
 
     $conn = new mysqli($servername, $username, $password, $dbname);
 

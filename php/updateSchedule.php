@@ -8,10 +8,7 @@ $startTime = $_POST['startTime'];
 $stopTime = $_POST['stopTime'];
 $employeeId = $_POST['employeeId'];
 $startDate = $_POST['startDate'];
-$servername = "sql13.bravehost.com";
-$username = "lhall";
-$password = "Lolipop0";
-$dbname = "dwDatabase_2820268";
+include 'mysql-credentials.php';
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 

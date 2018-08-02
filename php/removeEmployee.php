@@ -6,10 +6,7 @@ if ($_SESSION['role'] != 1){
 }
 $ID2 = $_POST['data'];
 $ID = (int)$ID2;
-$servername = "sql13.bravehost.com";
-$username = "lhall";
-$password = "Lolipop0";
-$dbname = "dwDatabase_2820268";
+include 'mysql-credentials.php';
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
