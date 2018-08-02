@@ -149,7 +149,6 @@
       
       <script>
             $( document ).ready(function() {
-                  alert('test2');
                   var urlParams = new URLSearchParams(window.location.search);
                   if(urlParams.get('success') == 'true'){
                         alert('New user account created');

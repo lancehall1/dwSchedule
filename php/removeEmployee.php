@@ -6,10 +6,14 @@ if ($_SESSION['role'] != 1){
 }
 $ID2 = $_POST['data'];
 $ID = (int)$ID2;
+<<<<<<< HEAD
 $servername = "us-cdbr-iron-east-01.cleardb.net";
 $username = "lancehall1";
 $password = "Lolipop0";
 $dbname = "heroku_01b86a6647f084a";
+=======
+include 'mysql-credentials.php';
+>>>>>>> 6223a4eb52221572413e3813402862c119b84adc
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 

@@ -54,10 +54,8 @@ if ($_SESSION['role'] != 1) {
 <p></p>
 
 <?php
-$servername = "sql13.bravehost.com";
-$username = "lhall";
-$password = "Lolipop0";
-$dbname = "dwDatabase_2820268";
+
+include 'php/mysql-credentials.php';
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
