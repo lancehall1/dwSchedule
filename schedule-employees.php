@@ -79,7 +79,7 @@ echo '</div>';
 //echo "]";
 $conn->close();
 ?>
-<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vonder/jquery/jquery.min.js"></script>
 <script>
     function showEmployeeInfo(){
         document.getElementById('employeeInfo').style.display = 'inline-block';

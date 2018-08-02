@@ -18,7 +18,7 @@
    <head>
       <title>Tutorialspoint.com</title>
       <link href = "css/bootstrap.min.css" rel = "stylesheet">
-      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.js"></script>
+      <script src="vonder/jquery/jquery.min.js"></script>
       
       <style>
          body {
