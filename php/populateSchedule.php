@@ -8,10 +8,10 @@
         die();
     }
 
-    $servername = "sql13.bravehost.com";
-    $username = "lhall";
+    $servername = "us-cdbr-iron-east-01.cleardb.net";
+    $username = "lancehall1";
     $password = "Lolipop0";
-    $dbname = "dwDatabase_2820268";
+    $dbname = "heroku_01b86a6647f084a";
     $endDate = $_GET['endDate'];
     $startDate = $_GET['startDate'];
     

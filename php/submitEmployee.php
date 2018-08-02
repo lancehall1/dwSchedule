@@ -7,10 +7,10 @@ if ($_SESSION['role'] != 1){
 $name = $_POST['Name'];
 $phone = $_POST['Phone'];
 $email = $_POST['Email'];
-$servername = "sql13.bravehost.com";
-$username = "lhall";
+$servername = "us-cdbr-iron-east-01.cleardb.net";
+$username = "lancehall1";
 $password = "Lolipop0";
-$dbname = "dwDatabase_2820268";
+$dbname = "heroku_01b86a6647f084a";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
