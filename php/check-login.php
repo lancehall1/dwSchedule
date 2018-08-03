@@ -15,7 +15,8 @@
         $result = $conn->query($sql2);
         $conn->close();
         if ($result->num_rows >= 1) {
-            $resultArray = array($result->fetch_assoc()['ID'], $result->fetch_assoc()['UserRole']);
+            $row = $result -> fetch_assoc();
+            $resultArray = array($row['UserRole'], $row['ID']);
             return $resultArray;
         } else
         {
