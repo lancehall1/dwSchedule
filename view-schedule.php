@@ -134,7 +134,6 @@ if ($_SESSION['username'] == null) {
   <script>
     $(document).ready(function(){
         var role='<?php echo $_SESSION['role'];?>';
-        alert(role);
     });
 
     $.getJSON('php/employeesToCalendar.php', function(response) {
