@@ -163,7 +163,7 @@ if ($_SESSION['username'] == null) {
     function highlightReleaseableShifts(){
       if(<?php echo $_SESSION['role']?> != 1){
         $('#<?php echo $_SESSION['employeeId']?> td p').css("background-color", "pink");
-        $('#<?php echo $_SESSION['employeeId']?> td p').on("click", releaseShift(this));
+        $('#<?php echo $_SESSION['employeeId']?> td p').on("click", function(){alert('test');});
       }
       else{
         $('#scheduleTable td p').css("background-color", "pink");
