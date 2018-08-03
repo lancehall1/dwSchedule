@@ -163,11 +163,11 @@ if ($_SESSION['username'] == null) {
     function highlightReleaseableShifts(){
       if(<?php echo $_SESSION['role']?> != 1){
         $('#<?php echo $_SESSION['employeeId']?> td p').css("background-color", "pink");
-        $('#<?php echo $_SESSION['employeeId']?> td p').click(releaseShift(this));
+        $('#<?php echo $_SESSION['employeeId']?> td p').on("click", releaseShift(this));
       }
       else{
         $('#scheduleTable td p').css("background-color", "pink");
-        $('#scheduleTable td p').click(releaseShift(this));
+        $('#scheduleTable td p').on("click",releaseShift(this));
       }
     }
 
