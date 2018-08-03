@@ -103,11 +103,12 @@
                   //lookup in userlogin table for passed in username and password. If they exist, redirect to schedule-employee.php else error msg: $msg = 'Wrong username or password';
                   $loginStatus = check_login($_POST['username'], $_POST['password']);
                   echo $loginStatus;
-                  if ($loginStatus >= 0) {
+                  if ($loginStatus[0] >= 0) {
                         $_SESSION['valid'] = true;
                         $_SESSION['timeout'] = time();
                         $_SESSION['username'] = $_POST['username'];
-                        $_SESSION['role'] = $loginStatus;
+                        $_SESSION['role'] = $loginStatus[0];
+                        $_SESSION['employeeId'] = $loginStatus[1];
                         //echo "<script>console.log( 'Debug Objects: " . $_SESSION['username'] . "' );</script>";
                         header('Location: user-panel.php');
                   }
@@ -154,6 +155,8 @@
                         alert('New user account created');
                         window.history.replaceState("", "Title", "schedule.php");
                   }
+                  var role='<?php echo $_SESSION['employeeId'];?>';
+                  alert(role);
             });
             function displaySignUpDiv(){
                   $("#signUpDiv").css("display","block");
