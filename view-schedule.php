@@ -134,6 +134,7 @@ if ($_SESSION['username'] == null) {
   <script>
     $(document).ready(function(){
         var role='<?php echo $_SESSION['role'];?>';
+        $('.week-picker').find('.ui-datepicker-current-day a').trigger('click');
     });
 
     $.getJSON('php/employeesToCalendar.php', function(response) {
