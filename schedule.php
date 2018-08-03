@@ -154,9 +154,7 @@
                   if(urlParams.get('success') == 'true'){
                         alert('New user account created');
                         window.history.replaceState("", "Title", "schedule.php");
-                  }
-                  var role='<?php echo $_SESSION['employeeId'];?>';
-                  alert(role);
+                  }                  
             });
             function displaySignUpDiv(){
                   $("#signUpDiv").css("display","block");
