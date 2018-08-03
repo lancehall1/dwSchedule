@@ -161,7 +161,7 @@ if ($_SESSION['username'] == null) {
     }
 
     function highlightReleaseableShifts(){
-      $('#<?php echo $_SESSION['employeeId'] ?> td').css("background-color", "blue");
+      $('#<?php echo $_SESSION['employeeId'] ?> td p').css("background-color", "lightblue");
     }
   </script>
 
