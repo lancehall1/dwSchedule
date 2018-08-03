@@ -117,6 +117,7 @@ if ($_SESSION['username'] == null) {
 
 <body>
   <div class="week-picker"></div>
+  <button onClick="highlightReleaseableShifts()">Release Shift</button>
     <br /><br />
     <label>Week :</label> <span id="startDate"></span> - <span id="endDate"></span>
     <table id="scheduleTable">
@@ -157,6 +158,10 @@ if ($_SESSION['username'] == null) {
     if (day.length < 2) day = '0' + day;
 
     return [year, month, day].join('-');
+    }
+
+    function highlightReleaseableShifts(){
+      $('#<?php echo $_SESSION['employeeId'] ?> td').css("background-color", "blue");
     }
   </script>
 

@@ -47,11 +47,6 @@
         <p>
             Click here to clean <a href = "logout.php" title = "Logout">Session.
         </p>
-    </div> 
-    <script>
-        var role='<?php echo $_SESSION['employeeId'];?>';
-                  alert(role);
-                  </script>
-    
+    </div>     
 </body>
 
