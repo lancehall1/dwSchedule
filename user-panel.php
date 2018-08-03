@@ -49,7 +49,7 @@
         </p>
     </div> 
     <script>
-        var role='<?php echo $_SESSION['role'];?>';
+        var role='<?php echo $_SESSION['employeeId'];?>';
                   alert(role);
                   </script>
     
