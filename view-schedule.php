@@ -167,7 +167,7 @@ if ($_SESSION['username'] == null) {
       }
       else{
         $('#scheduleTable td p').css("background-color", "pink");
-        $('#scheduleTable td p').on("click",function(){alert('test1');});
+        $('#scheduleTable td p').on("click",function(){alert('test');});
       }
     }
 
