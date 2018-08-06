@@ -74,7 +74,8 @@ if ($_SESSION['username'] == null) {
                     console.log('EmployeeId=' + response2[key]['EmployeeId']);
                     var date = new Date(response2[key]['ScheduleDate']);
                     var day = date.getDay();  
-                    $('#' + response2[key]['EmployeeId']).find('.' + weekday[day + 1]).append('<p>' + response2[key]['StartTime'] + ' - ' + response2[key]['StopTime'] + '</p>');          
+                    //we append the ID of the schedule record so that it's easier to reference when it comes time to release shifts
+                    $('#' + response2[key]['EmployeeId']).find('.' + weekday[day + 1]).append('<div id="' + response2[ID] + '"><p>' + response2[key]['StartTime'] + ' - ' + response2[key]['StopTime'] + '</p></div>');          
                   }
                 }
               });              
@@ -133,6 +134,7 @@ if ($_SESSION['username'] == null) {
       </tr>
     </table>
   <script>
+    var employeesInCalendar = false;
     $(document).ready(function(){
         var role='<?php echo $_SESSION['role'];?>';
         $('.week-picker').find('.ui-datepicker-current-day a').trigger('click');
@@ -146,6 +148,7 @@ if ($_SESSION['username'] == null) {
 		    console.log(' ID=' + response[key]['ID']);
         $( "#scheduleTable tr:last" ).after( "<tr id=" + response[key]['ID'] + "><td>" + response[key]['FullName'] + '</td><td class="Sunday"></td><td class="Monday"></td><td class="Tuesday"></td><td class="Wednesday"></td><td class="Thursday"></td><td class="Friday"></td><td class="Saturday"></td></tr>' );
       }
+      employeesInCalendar = true;
     });
 
     function formatDate(d) {
@@ -161,16 +164,33 @@ if ($_SESSION['username'] == null) {
     }
 
     function highlightReleaseableShifts(){
-      if(<?php echo $_SESSION['role']?> != 1){
-        $('#<?php echo $_SESSION['employeeId']?> td p').css("background-color", "pink");
-        $('#<?php echo $_SESSION['employeeId']?> td p').on("click", function(){alert('test1');});
+      //make sure employees are actually in the display table before highlighting them
+      //probably unnecessary unless the DB is slow and user is impatient
+      var timeout = 5;
+      while (!employeesInCalendar) {
+        //check following method if errors on website
+        setTimeout(function() {
+        }, (100));
+        timeout--;
+        if (timeout < 1) {console.log("Database timeout.");break;}
       }
-      else{
-        $('#scheduleTable td p').css("background-color", "pink");
-        $('#scheduleTable td p').on("click",function(){alert('test3');});
+      if (employeesInCalendar) {
+        if(<?php echo $_SESSION['role']?> != 1){
+          //$('#<?php echo $_SESSION['employeeId']?> td p').css("background-color", "pink");
+          //$('#<?php echo $_SESSION['employeeId']?> td p').on("click", function(){alert('test1');});
+        }
+        else{
+          $('#scheduleTable td p').css("background-color", "pink");
+          //$('#scheduleTable td p').on("click",function(){alert('test3');});
+
+        }
       }
+      else {console.log("Failed to get employees from server database.")}
     }
 
+    function releaseShift(e) {
+
+    }
   </script>
 
 
