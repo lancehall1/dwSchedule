@@ -309,8 +309,8 @@ if ($_SESSION['role'] != 1) {
             type: "POST",
             url: 'php/updateSchedule.php',
             data: {startTime:startTime, stopTime:stopTime, employeeId:employeeId, startDate:startDate}
-        });
-        window.location = "http://www.devilwindbrewing.com/schedule-admin.php?day=" + selectedCalendarElement + "&month=" + selectedCalendarMonth + "&year=" + selectedCalendarYear;            
+        });            
+        window.location = "./schedule-admin.php?day=" + selectedCalendarElement + "&month=" + selectedCalendarMonth + "&year=" + selectedCalendarYear;            
       }
     }
 
