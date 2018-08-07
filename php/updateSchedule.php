@@ -28,5 +28,5 @@ if ($result->num_rows == 0) {
 
 $conn->close();
 
-header("Location:schedule-admin.php");
+header("Location:../schedule-admin.php");
 ?>
