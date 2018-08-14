@@ -20,7 +20,19 @@ if ($_SESSION['username'] == null) {
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.min.js"></script>
     <link rel="stylesheet" type="text/css" media="screen" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/base/jquery-ui.css">
   <script type="text/javascript">
-  $(function() {
+  var shiftsInCalendar = false;
+  //first we want to retrieve and populate the table with employee names, then we can call the schedule populator to fill in the shifts
+  //this way we ensure that the shifts are never populated without a list of employees
+  $.getJSON('php/employeesToCalendar.php', function(response) {
+      // response is a JSON object that contains all the info from de sql query
+      for (var key in response) {
+        $( "#scheduleTable tr:last" ).after( "<tr id=" + response[key]['ID'] + "><td>" + response[key]['FullName'] + '</td><td class="Sunday"></td><td class="Monday"></td><td class="Tuesday"></td><td class="Wednesday"></td><td class="Thursday"></td><td class="Friday"></td><td class="Saturday"></td></tr>' );
+      }
+      //we populate shifts only when employees are in the calendar
+      populateShifts();
+    });
+
+  function populateShifts() {
       var startDate;
       var endDate;
 
@@ -68,15 +80,14 @@ if ($_SESSION['username'] == null) {
                   startDate: formatDate(startDate)
                 },
                 success: function(response) {
-                  console.log(response);
                   var response2 = JSON.parse(response);
                   for (var key in response2) {
-                    console.log('EmployeeId=' + response2[key]['EmployeeId']);
                     var date = new Date(response2[key]['ScheduleDate']);
                     var day = date.getDay();  
                     //we append the ID of the schedule record so that it's easier to reference when it comes time to release shifts
                     $('#' + response2[key]['EmployeeId']).find('.' + weekday[day + 1]).append('<div id="' + response2[key]['ID'] + '"><p>' + response2[key]['StartTime'] + ' - ' + response2[key]['StopTime'] + '</p></div>');          
                   }
+                  shiftsInCalendar = true;
                 }
               });              
           },
@@ -93,7 +104,7 @@ if ($_SESSION['username'] == null) {
 
       $('.week-picker .ui-datepicker-calendar tr').live('mousemove', function() { $(this).find('td a').addClass('ui-state-hover'); });
       $('.week-picker .ui-datepicker-calendar tr').live('mouseleave', function() { $(this).find('td a').removeClass('ui-state-hover'); });
-  });
+  }
   </script>
 
 	<style>
@@ -134,21 +145,9 @@ if ($_SESSION['username'] == null) {
       </tr>
     </table>
   <script>
-    var employeesInCalendar = false;
     $(document).ready(function(){
         var role='<?php echo $_SESSION['role'];?>';
         $('.week-picker').find('.ui-datepicker-current-day a').trigger('click');
-    });
-
-    $.getJSON('php/employeesToCalendar.php', function(response) {
-      // response is a JSON object that contains all the info from de sql query
-      /* do your JS stuff here */
-      for (var key in response) {
-        console.log(' name=' + response[key]['FullName']);
-		    console.log(' ID=' + response[key]['ID']);
-        $( "#scheduleTable tr:last" ).after( "<tr id=" + response[key]['ID'] + "><td>" + response[key]['FullName'] + '</td><td class="Sunday"></td><td class="Monday"></td><td class="Tuesday"></td><td class="Wednesday"></td><td class="Thursday"></td><td class="Friday"></td><td class="Saturday"></td></tr>' );
-      }
-      employeesInCalendar = true;
     });
 
     function formatDate(d) {
@@ -164,11 +163,11 @@ if ($_SESSION['username'] == null) {
     }
 
     function highlightReleaseableShifts(){
-      //make sure employees are actually in the display table before highlighting them
+      //make sure shifts are actually in the display table before highlighting them
       //probably unnecessary unless the DB is slow and user is impatient
       var timeout = 5;
-      while (!employeesInCalendar) {
-        //check following method if errors on website
+      while (!shiftsInCalendar) {
+        //note: check following method if errors on website
         setTimeout(function() {
         }, (100));
         timeout--;
