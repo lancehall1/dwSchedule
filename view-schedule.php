@@ -166,6 +166,7 @@ if ($_SESSION['username'] == null) {
     function highlightReleaseableShifts(){
       //make sure employees are actually in the display table before highlighting them
       //probably unnecessary unless the DB is slow and user is impatient
+      alert('test');
       var timeout = 5;
       while (!employeesInCalendar) {
         //check following method if errors on website
