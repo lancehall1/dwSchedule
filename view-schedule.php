@@ -176,7 +176,7 @@ if ($_SESSION['username'] == null) {
       }
       if (employeesInCalendar) {
         if(<?php echo $_SESSION['role']?> != 1){
-          //$('#<?php echo $_SESSION['employeeId']?> td p').css("background-color", "pink");
+          $('#<?php echo $_SESSION['employeeId']?> td p').css("background-color", "pink");
           //$('#<?php echo $_SESSION['employeeId']?> td p').on("click", function(){alert('test1');});
         }
         else{
