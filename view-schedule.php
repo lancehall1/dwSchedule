@@ -181,7 +181,8 @@ if ($_SESSION['username'] == null) {
         }
         else{
           $('#scheduleTable td p').css("background-color", "pink");
-          //$('#scheduleTable td p').on("click",function(){alert('test3');});
+          $('#scheduleTable td p').css("position", "relative");
+          $('#scheduleTable td p').append('<div style="position:absolute;top:0;left:0;width:100%;height:100%;background-color:transparent" onClick="releaseShift()"></div>');
 
         }
       }
@@ -189,7 +190,7 @@ if ($_SESSION['username'] == null) {
     }
 
     function releaseShift(e) {
-
+      alert('test');
     }
   </script>
 
