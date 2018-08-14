@@ -75,7 +75,7 @@ if ($_SESSION['username'] == null) {
                     var date = new Date(response2[key]['ScheduleDate']);
                     var day = date.getDay();  
                     //we append the ID of the schedule record so that it's easier to reference when it comes time to release shifts
-                    $('#' + response2[key]['EmployeeId']).find('.' + weekday[day + 1]).append('<div id="' + response2[ID] + '"><p>' + response2[key]['StartTime'] + ' - ' + response2[key]['StopTime'] + '</p></div>');          
+                    $('#' + response2[key]['EmployeeId']).find('.' + weekday[day + 1]).append('<div id="' + response2[key]['ID'] + '"><p>' + response2[key]['StartTime'] + ' - ' + response2[key]['StopTime'] + '</p></div>');          
                   }
                 }
               });              
