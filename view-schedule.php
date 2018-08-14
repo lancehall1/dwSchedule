@@ -166,7 +166,6 @@ if ($_SESSION['username'] == null) {
     function highlightReleaseableShifts(){
       //make sure employees are actually in the display table before highlighting them
       //probably unnecessary unless the DB is slow and user is impatient
-      alert('test');
       var timeout = 5;
       while (!employeesInCalendar) {
         //check following method if errors on website
@@ -177,6 +176,7 @@ if ($_SESSION['username'] == null) {
       }
       if (employeesInCalendar) {
         if(<?php echo $_SESSION['role']?> != 1){
+          alert('test');
           $('#<?php echo $_SESSION['employeeId']?> td p').css("background-color", "pink");
           //$('#<?php echo $_SESSION['employeeId']?> td p').on("click", function(){alert('test1');});
         }
