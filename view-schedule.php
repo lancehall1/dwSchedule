@@ -84,8 +84,56 @@ if ($_SESSION['username'] == null) {
                   for (var key in response2) {
                     var date = new Date(response2[key]['ScheduleDate']);
                     var day = date.getDay();  
+
+                    var stopTime= response2[key]['StopTime'];
+                    var startTime = response2[key]['StartTime'];
+                    var employeeId = response2[key]['EmployeeId'];
+
+                    var tmpArrStart = startTime.split(':');
+                    if(tmpArrStart[0] == 12){
+                      startTime = tmpArrStart[0] + ':' + tmpArrStart[1] + ' pm';
+                    }
+                    else if(+tmpArrStart[0] == 00) {
+                        startTime = '12:' + tmpArrStart[1] + ' am';
+                      } 
+                      else if(+tmpArrStart[0] > 12) {
+                        startTime = (+tmpArrStart[0]-12) + ':' + tmpArrStart[1] + ' pm';
+                      } 
+                      else {
+                        startTime = (+tmpArrStart[0]) + ':' + tmpArrStart[1] + ' am';
+                      }
+
+                    var tmpArrStop = stopTime.split(':');
+                    if(tmpArrStop[0] == 12){
+                      stopTime = tmpArrStop[0] + ':' + tmpArrStop[1] + ' pm';
+                    }
+                    else if(+tmpArrStop[0] == 00) {
+                      stopTime = '12:' + tmpArrStop[1] + ' am';
+                    } 
+                    else if(+tmpArrStop[0] > 12) {
+                      stopTime = (+tmpArrStop[0]-12) + ':' + tmpArrStop[1] + ' pm';
+                    } 
+                    else {
+                      stopTime = (+tmpArrStop[0]) + ':' + tmpArrStop[1] + ' am';
+                    }
+
+                    var modifiedDay;
+                    if(day < 6)
+                    {
+                      modifiedDay = day + 1;
+                    }
+                    else if(day == 6)
+                    {
+                      modifiedDay = 0;
+                    }
+
                     //we append the ID of the schedule record so that it's easier to reference when it comes time to release shifts
-                    $('#' + response2[key]['EmployeeId']).find('.' + weekday[day + 1]).append('<div id="' + response2[key]['ID'] + '"><p>' + response2[key]['StartTime'] + ' - ' + response2[key]['StopTime'] + '</p></div>');          
+                    $('#' + response2[key]['EmployeeId']).find('.' + weekday[modifiedDay]).append('<div id="' + response2[key]['ID'] + '"><p>' + startTime + ' - ' + stopTime + '</p></div>');          
+                    if(response2[key]['Released'] == 1)
+                    {
+                      $('#' + response2[key]['ID'] + ' p').css('border', '5px solid blue');
+                      $('#' + response2[key]['ID'] + ' p').css('background-color', 'transparent');
+                    }
                   }
                   shiftsInCalendar = true;
                 }
@@ -104,6 +152,7 @@ if ($_SESSION['username'] == null) {
 
       $('.week-picker .ui-datepicker-calendar tr').live('mousemove', function() { $(this).find('td a').addClass('ui-state-hover'); });
       $('.week-picker .ui-datepicker-calendar tr').live('mouseleave', function() { $(this).find('td a').removeClass('ui-state-hover'); });
+      $('.week-picker').find('.ui-datepicker-current-day a').trigger('click');
   }
   </script>
 
@@ -147,7 +196,6 @@ if ($_SESSION['username'] == null) {
   <script>
     $(document).ready(function(){
         var role='<?php echo $_SESSION['role'];?>';
-        $('.week-picker').find('.ui-datepicker-current-day a').trigger('click');
     });
 
     function formatDate(d) {
@@ -173,15 +221,16 @@ if ($_SESSION['username'] == null) {
         timeout--;
         if (timeout < 1) {console.log("Database timeout.");break;}
       }
-      if (employeesInCalendar) {
+      if (shiftsInCalendar) {
         if(<?php echo $_SESSION['role']?> != 1){
           $('#<?php echo $_SESSION['employeeId']?> td p').css("background-color", "pink");
-          //$('#<?php echo $_SESSION['employeeId']?> td p').on("click", function(){alert('test1');});
+          $('#scheduleTable td p').css("position", "relative");
+          $('#<?php echo $_SESSION['employeeId']?> td p').append('<div style="position:absolute;top:0;left:0;width:100%;height:100%;background-color:transparent" onClick="releaseShift(this)"></div>');
         }
         else{
           $('#scheduleTable td p').css("background-color", "pink");
           $('#scheduleTable td p').css("position", "relative");
-          $('#scheduleTable td p').append('<div style="position:absolute;top:0;left:0;width:100%;height:100%;background-color:transparent" onClick="releaseShift()"></div>');
+          $('#scheduleTable td p').append('<div style="position:absolute;top:0;left:0;width:100%;height:100%;background-color:transparent" onClick="releaseShift(this)"></div>');
 
         }
       }
@@ -189,7 +238,26 @@ if ($_SESSION['username'] == null) {
     }
 
     function releaseShift(e) {
-      alert('test');
+      var tmpStr = $(e).parent().parent().attr('id');
+      $.ajax({
+          cache: false,
+          type: "POST",
+          url: 'php/releaseShift.php',
+          data: { ID: tmpStr},
+          success: function(){
+            $('#' + tmpStr + ' p').css('border', '5px solid blue');
+            $('#' + tmpStr + ' p').css("background-color", "transparent");
+          }
+      });
+      $.ajax({
+        url: "mail/release_shift_email.php",
+        type: "POST",
+        data: {
+          name: name,
+          date: date,
+          startTime: startTime,
+          endTime: endTime
+        });
     }
   </script>
 
