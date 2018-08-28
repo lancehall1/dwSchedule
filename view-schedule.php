@@ -252,7 +252,8 @@ if ($_SESSION['username'] == null) {
       $.ajax({
         url: "mail/release_shift_email.php",
         type: "POST",
-        data: { ID: tmpStr});
+        data: { ID: tmpStr}
+      });
     }
   </script>
 

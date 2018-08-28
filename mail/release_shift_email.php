@@ -25,7 +25,7 @@ if ($conn->connect_error) {
 
 $sql = "SELECT * FROM Schedule WHERE Schedule.ID = $ID";
 $result2 = $conn->query($sql);
-$scheduleRow = $results2->fetch_assoc();
+$scheduleRow = $result2->fetch_assoc();
 $employeeId = $scheduleRow['EmployeeId'];
 $date = $scheduleRow['ScheduleDate'];
 $startTime = $scheduleRow['StartTime'];
@@ -56,13 +56,12 @@ try {
     {
         $mail->addAddress($row['Email'], $row['FullName']);
     } 
-
     //Content
     $mail->isHTML(true);                                  // Set email format to HTML
     $mail->Subject = 'A shift has been released';
     $mail->Body    = "$name has released a shift on $date from $startTime to $endTime";
-
     $mail->send();
+    error_log(("test"));
     echo 'Message has been sent';
 } catch (Exception $e) {
     echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;

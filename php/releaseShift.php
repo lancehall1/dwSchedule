@@ -15,9 +15,9 @@
     }
 
     $sql1 = "SELECT * FROM Schedule WHERE Schedule.ID = $ID";
-    
-    $conn->query($sql1);
-    if($sql1->EmployeeId == $_SESSION['employeeId'] || $_SESSION['role'] == 1)
+    $result = $conn->query($sql1);
+
+    if($result->fetch_assoc()['EmployeeId'] == $_SESSION['employeeId'] || $_SESSION['role'] == 1)
     {
         $sql2 = "UPDATE Schedule SET Released = 1 WHERE ID = $ID";
         $conn->query($sql2);
