@@ -1,29 +1,25 @@
 <?php
-//DOnUT USE PLS
+//Still in development
 	if (!session_id()) {
         session_start();
     }
     
-    if (!($_SESSION['valid'] == true && $_SESSION('role') == 1)) {
+    if ($_SESSION['username'] == '') {
         header("Location:../schedule.php");
         die();
     }
 
     include 'mysql-credentials.php';
-    $email = $_GET['email'];
-    
+    //$email = $_GET['email'];
+    $employeeId = $_SESSION['employeeId'];
+
     $conn = new mysqli($servername, $username, $password, $dbname);
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql2 = "SELECT * FROM  Employees WHERE Email == '$email'";
+    $sql2 = "SELECT * FROM  Employees WHERE ID = '$employeeId'";
     $result = $conn->query($sql2);
-    $results = array();
-    //while($row = mysql_fetch_assoc($result))
-    while($row = $result->fetch_assoc())
-    {
-        $results[] = $row;
-    }
-    
+    $row = $result->fetch_assoc();
+    echo json_encode($row);
 ?>
