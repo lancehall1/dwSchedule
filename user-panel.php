@@ -31,21 +31,16 @@
 
 <body>
     <div class = "container">
-        <!--Click here to clean <a href = "logout.php" tite = "Logout">Session.-->
         <?php
-            if ($_SESSION['role'] == 0) {
-                echo '<input type="button" class="panel-button" value="Edit Your Info" />';
-                echo '<a href="./view-schedule.php"><input type="button" class="panel-button" value="View Schedule" /></a>';
-            }
+            echo '<a href="./userinfo-edit.php"><input type="button" class="panel-button" value="Edit your info" /></a>';
+            //we add a button leading to schedule administration panel if the user logged in is an administrator
             if ($_SESSION['role'] == 1) {
-                echo '<input type="button" class="panel-button" value="Edit Your Info" />';
                 echo '<a href="./schedule-admin.php"><input type="button" class="panel-button" value="Scheduling Administration" /></a>';
-                echo '<a href="./view-schedule.php"><input type="button" class="panel-button" value="View Schedule" /></a>';
             }
+            echo '<a href="./view-schedule.php"><input type="button" class="panel-button" value="View Schedule" /></a>';
         ?>
-        
         <p>
-            Click here to clean <a href = "logout.php" title = "Logout">Session.
+            <a href="./logout.php"><input type="button" class="panel-button" value="Log out" /></a>
         </p>
     </div>     
 </body>
