@@ -21,9 +21,9 @@
 
     //$sql2 = "SELECT * FROM  Employees WHERE EmployeeId == '$employeeId'";
     if ($userPassword == '')
-        $sql2 = "UPDATE Employees SET Email = '$email', FullName = '$fullName' WHERE EmployeeId = '$employeeId'";
+        $sql2 = "UPDATE Employees SET Email = '$email', FullName = '$fullName' WHERE ID = '$employeeId'";
     else 
-        $sql2 = "UPDATE Employees SET Email = '$email', FullName = '$fullName', UserPassword = '$userPassword' WHERE EmployeeId = '$employeeId'";
+        $sql2 = "UPDATE Employees SET Email = '$email', FullName = '$fullName', UserPassword = '$userPassword' WHERE ID = '$employeeId'";
     $conn->query($sql2);
     $conn->close();
     header("Location:../user-panel.php");
