@@ -19,11 +19,11 @@
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql2 = "SELECT * FROM  Employees WHERE EmployeeId == '$employeeId'";
+    //$sql2 = "SELECT * FROM  Employees WHERE EmployeeId == '$employeeId'";
     if ($userPassword == '')
-        $sql2 = "UPDATE Employees SET Email = '$email', FullName = '$fullName'";
+        $sql2 = "UPDATE Employees SET Email = '$email', FullName = '$fullName' WHERE EmployeeId = '$employeeId'";
     else 
-        $sql2 = "UPDATE Employees SET Email = '$email', FullName = '$fullName', UserPassword = '$userPassword'";
+        $sql2 = "UPDATE Employees SET Email = '$email', FullName = '$fullName', UserPassword = '$userPassword' WHERE EmployeeId = '$employeeId'";
     $conn->query($sql2);
     $conn->close();
     header("Location:../user-panel.php");
