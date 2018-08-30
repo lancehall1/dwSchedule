@@ -131,8 +131,10 @@ if ($_SESSION['username'] == null) {
                     $('#' + response2[key]['EmployeeId']).find('.' + weekday[modifiedDay]).append('<div id="' + response2[key]['ID'] + '"><p>' + startTime + ' - ' + stopTime + '</p></div>');          
                     if(response2[key]['Released'] == 1)
                     {
-                      $('#' + response2[key]['ID'] + ' p').css('border', '5px solid blue');
-                      $('#' + response2[key]['ID'] + ' p').css('background-color', 'transparent');
+                      var shiftId = response2[key]['ID'];
+                      $('#' + shiftId + ' p').css('border', '5px solid blue');
+                      $('#' + shiftId + ' p').css('background-color', 'transparent');
+                      $('#' + shiftId).attr('onClick',"assignShift(this)");
                     }
                   }
                   shiftsInCalendar = true;
@@ -253,6 +255,19 @@ if ($_SESSION['username'] == null) {
         url: "mail/release_shift_email.php",
         type: "POST",
         data: { ID: tmpStr}
+      });
+    }
+
+    function assignShift(e) {
+      var tmpStr = $(e).attr('id');
+      $.ajax({
+          cache: false,
+          type: "POST",
+          url: 'php/assign-shift.php',
+          data: { ID: tmpStr},
+          success: function(){
+            //Reload the page maybe idk lmao ayy
+          }
       });
     }
   </script>
