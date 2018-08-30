@@ -53,6 +53,7 @@ if ($_SESSION['role'] != 1) {
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.js"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.min.js"></script>
     <link rel="stylesheet" type="text/css" media="screen" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="css/loader.css">
   <script type="text/javascript">
   $(function() {
       var startDate;
@@ -155,7 +156,8 @@ if ($_SESSION['role'] != 1) {
                   $('.Wednesday').prepend('<img class="greenPlus" onclick="addShiftInputs(this)" src="img/greenPlus.png" />');
                   $('.Thursday').prepend('<img class="greenPlus" onclick="addShiftInputs(this)" src="img/greenPlus.png" />');
                   $('.Friday').prepend('<img class="greenPlus" onclick="addShiftInputs(this)" src="img/greenPlus.png" />');
-                  $('.Saturday').prepend('<img class="greenPlus" onclick="addShiftInputs(this)" src="img/greenPlus.png" />');         
+                  $('.Saturday').prepend('<img class="greenPlus" onclick="addShiftInputs(this)" src="img/greenPlus.png" />');
+                  stopLoader();      
                 }
               });              
           },
@@ -244,6 +246,7 @@ if ($_SESSION['role'] != 1) {
     }
 
     function saveShifts(){
+      startLoader();
       var timeInputDivs = document.getElementsByClassName("timeInputDiv");
       var startTime;
       var stopTime;
@@ -309,9 +312,9 @@ if ($_SESSION['role'] != 1) {
             type: "POST",
             url: 'php/updateSchedule.php',
             data: {startTime:startTime, stopTime:stopTime, employeeId:employeeId, startDate:startDate}
-        });            
-        window.location = "./schedule-admin.php?day=" + selectedCalendarElement + "&month=" + selectedCalendarMonth + "&year=" + selectedCalendarYear;            
+        });                        
       }
+      window.location = "./schedule-admin.php?day=" + selectedCalendarElement + "&month=" + selectedCalendarMonth + "&year=" + selectedCalendarYear;
     }
 
     function deleteInputs(e){
@@ -319,6 +322,7 @@ if ($_SESSION['role'] != 1) {
     }
 
     function fillDefaults(e){
+      startLoader();
       var startDateObj = new Date($('#startDate').text());
       var stopDateObj = new Date($('#endDate').text());
       var startDate = startDateObj.toISOString().substring(0, 10);
@@ -334,9 +338,23 @@ if ($_SESSION['role'] != 1) {
         success: function() {
           location.reload();
         }
+        error: function() {
+          stopLoader();
+          alert("Failed to fill defaults");
+        }
       });
     }
-  </script>
 
+    function startLoader() {
+      $('#loaderModal').css("display", "block");
+    }
+
+    function stopLoader() {
+      $('#loaderModal').css("display", "none");
+    }
+  </script>
+  <div id="loaderModal" class="modal">
+    <div id="loader"></div>
+  </div> 
 </body>
 </html>

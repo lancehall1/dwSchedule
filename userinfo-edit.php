@@ -16,6 +16,7 @@
 <script src="vonder/jquery/jquery.min.js"></script>
 <head>
     <link href = "css/bootstrap.min.css" rel = "stylesheet">
+    <link href = "css/loader.css" rel = "stylesheet">
     <style>
          body {
             padding-top: 40px;
@@ -45,9 +46,13 @@
         <p>
         <a href="./logout.php"><input type="button" class="panel-button" value="Log out" /></a>
         </p>
-    </div>     
+    </div>    
+    <div id="loaderModal" class="modal">
+        <div id="loader"></div>
+    </div> 
 </body>
 <script>
+
     $( document ).ready(function() {
         $.ajax({
             cache: false,
@@ -58,7 +63,13 @@
                 var response2 = JSON.parse(response);
                 $('#fullNameId').val(response2['FullName']);
                 $('#emailId').val(response2['Email']);
+                pageFinishedLoading();
             }
         });
     });
+
+    function pageFinishedLoading() {
+      $('#loaderModal').css( "display", "none");
+    }
+    
 </script>

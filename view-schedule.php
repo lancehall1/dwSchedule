@@ -15,7 +15,7 @@ if ($_SESSION['username'] == null) {
   <meta charset="utf-8">
   <title>Devil Wind Brewing</title>
   <link rel="stylesheet" href="css/styles.css?v=1.0">
-
+  <link rel="stylesheet" href="css/loader.css">
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.js"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.min.js"></script>
     <link rel="stylesheet" type="text/css" media="screen" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/base/jquery-ui.css">
@@ -137,7 +137,7 @@ if ($_SESSION['username'] == null) {
                       $('#' + shiftId).attr('onClick',"assignShift(this)");
                     }
                   }
-                  shiftsInCalendar = true;
+                  pageFinishedLoading();
                 }
               });              
           },
@@ -211,6 +211,11 @@ if ($_SESSION['username'] == null) {
 
     return [year, month, day].join('-');
     }
+    //after the shifts get populated this method is called to turn off the loading screen
+    function pageFinishedLoading() {
+      shiftsInCalendar = true;
+      $('#loaderModal').css( "display", "none");
+    }
 
     function highlightReleaseableShifts(){
       //make sure shifts are actually in the display table before highlighting them
@@ -271,7 +276,8 @@ if ($_SESSION['username'] == null) {
       });
     }
   </script>
-
-
+  <div id="loaderModal" class="modal">
+    <div id="loader"></div>
+  </div>
 </body>
 </html>
