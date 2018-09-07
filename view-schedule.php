@@ -46,6 +46,7 @@ if ($_SESSION['username'] == null) {
           showOtherMonths: true,
           selectOtherMonths: true,
           onSelect: function(dateText, inst) {
+            startLoader();
               var date = $(this).datepicker('getDate');
               startDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay());
               endDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay() + 6);
@@ -214,7 +215,7 @@ if ($_SESSION['username'] == null) {
     //after the shifts get populated this method is called to turn off the loading screen
     function pageFinishedLoading() {
       shiftsInCalendar = true;
-      $('#loaderModal').css( "display", "none");
+      stopLoader();
     }
 
     function highlightReleaseableShifts(){
@@ -274,6 +275,14 @@ if ($_SESSION['username'] == null) {
             //Reload the page maybe idk lmao ayy
           }
       });
+    }
+
+    function startLoader() {
+      $('#loaderModal').css("display", "block");
+    }
+
+    function stopLoader() {
+      $('#loaderModal').css("display", "none");
     }
   </script>
   <div id="loaderModal" class="modal">

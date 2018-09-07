@@ -55,7 +55,17 @@ if ($_SESSION['role'] != 1) {
     <link rel="stylesheet" type="text/css" media="screen" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="css/loader.css">
   <script type="text/javascript">
-  $(function() {
+    $.getJSON('php/employeesToCalendar.php', function(response) {
+      // response is a JSON object that contains all the info from de sql query
+      /* do your JS stuff here */
+      stopLoader();
+      for (var key in response) {
+        $( "#scheduleTable tr:last" ).after( "<tr id=" + response[key]['ID'] + "><td>" + response[key]['FullName'] + '<button onClick="fillDefaults(this)">Defaults</button>' + '</td><td class="Sunday"></td><td class="Monday"></td><td class="Tuesday"></td><td class="Wednesday"></td><td class="Thursday"></td><td class="Friday"></td><td class="Saturday"></td></tr>' );
+      }
+      populateShifts();
+    });
+    
+    function populateShifts() {
       var startDate;
       var endDate;
 
@@ -69,6 +79,7 @@ if ($_SESSION['role'] != 1) {
           showOtherMonths: true,
           selectOtherMonths: true,
           onSelect: function(dateText, inst) {
+              startLoader();
               var date = $(this).datepicker('getDate');
               startDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay());
               endDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay() + 6);
@@ -174,7 +185,7 @@ if ($_SESSION['role'] != 1) {
 
       $('.week-picker .ui-datepicker-calendar tr').live('mousemove', function() { $(this).find('td a').addClass('ui-state-hover'); });
       $('.week-picker .ui-datepicker-calendar tr').live('mouseleave', function() { $(this).find('td a').removeClass('ui-state-hover'); });
-  });
+  };
   </script>
 </head>
 
@@ -209,14 +220,6 @@ if ($_SESSION['role'] != 1) {
       //        $('.week-picker').find('.ui-datepicker-current-day a').addClass('ui-state-active')
       //    }, 1);
       $('.week-picker').find('.ui-datepicker-current-day a').trigger('click');
-    });
-
-    $.getJSON('php/employeesToCalendar.php', function(response) {
-      // response is a JSON object that contains all the info from de sql query
-      /* do your JS stuff here */
-      for (var key in response) {
-        $( "#scheduleTable tr:last" ).after( "<tr id=" + response[key]['ID'] + "><td>" + response[key]['FullName'] + '<button onClick="fillDefaults(this)">Defaults</button>' + '</td><td class="Sunday"></td><td class="Monday"></td><td class="Tuesday"></td><td class="Wednesday"></td><td class="Thursday"></td><td class="Friday"></td><td class="Saturday"></td></tr>' );
-      }
     });
 
     function formatDate(d) {
@@ -337,7 +340,7 @@ if ($_SESSION['role'] != 1) {
         },
         success: function() {
           location.reload();
-        }
+        },
         error: function() {
           stopLoader();
           alert("Failed to fill defaults");
