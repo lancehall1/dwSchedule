@@ -38,6 +38,10 @@ if ($_SESSION['role'] != 1) {
 </head>
 
 <body>
+<a href="user-panel.php">Home</a>
+<a href="schedule-admin.php">Back to schedule administration</a>
+<a href="logout.php">Log out</a>
+<p>
 <button onclick="showEmployeeInfo()">Add Employee</button>
 <div style="display:none" id="employeeInfo">
     <form id="cp-newsletter" action="php/submitEmployee.php" method="post">

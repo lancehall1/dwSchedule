@@ -189,9 +189,12 @@ if ($_SESSION['role'] != 1) {
 </head>
 
 <body>
+  <a href="user-panel.php">Home</a>
+  <a href="logout.php">Log out</a>
+  <p>
   <a href="schedule-employees.php">Employees</a>
   <a href="schedule-defaults.php">Modify Defaults</a>
-  <button onClick="saveShifts()">Save</button>
+  <button onClick="saveShifts()">Save Shifts</button>
   <div class="week-picker"></div>
     <br /><br />
     <label>Week :</label> <span id="startDate"></span> - <span id="endDate"></span>

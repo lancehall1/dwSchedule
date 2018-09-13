@@ -56,6 +56,10 @@ if ($_SESSION['role'] != 1) {
 </head>
 
 <body>
+  <a href="user-panel.php">Home</a>
+  <a href="schedule-admin.php">Back to schedule administration</a>
+  <a href="logout.php">Log out</a>
+  <p>
   <a href="schedule-employees.php">Employees</a>
   <button onClick="saveDefaults()">Save</button>
     <br /><br />

@@ -180,6 +180,9 @@ if ($_SESSION['username'] == null) {
 </head>
 
 <body>
+  <a href="user-panel.php">Home</a>
+  <a href="logout.php">Log out</a>
+  <p>
   <div class="week-picker"></div>
   <button onClick="highlightReleaseableShifts()">Release Shift</button>
     <br /><br />
