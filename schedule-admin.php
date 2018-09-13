@@ -58,14 +58,13 @@ if ($_SESSION['role'] != 1) {
     $.getJSON('php/employeesToCalendar.php', function(response) {
       // response is a JSON object that contains all the info from de sql query
       /* do your JS stuff here */
-      stopLoader();
       for (var key in response) {
         $( "#scheduleTable tr:last" ).after( "<tr id=" + response[key]['ID'] + "><td>" + response[key]['FullName'] + '<button onClick="fillDefaults(this)">Defaults</button>' + '</td><td class="Sunday"></td><td class="Monday"></td><td class="Tuesday"></td><td class="Wednesday"></td><td class="Thursday"></td><td class="Friday"></td><td class="Saturday"></td></tr>' );
       }
-      populateShifts();
+      stopLoader();
     });
     
-    function populateShifts() {
+    $(function() {
       var startDate;
       var endDate;
 
@@ -185,7 +184,7 @@ if ($_SESSION['role'] != 1) {
 
       $('.week-picker .ui-datepicker-calendar tr').live('mousemove', function() { $(this).find('td a').addClass('ui-state-hover'); });
       $('.week-picker .ui-datepicker-calendar tr').live('mouseleave', function() { $(this).find('td a').removeClass('ui-state-hover'); });
-  };
+  });
   </script>
 </head>
 
@@ -214,12 +213,20 @@ if ($_SESSION['role'] != 1) {
       var day = urlParams.get('day');
       var month = urlParams.get('month');
       var year = urlParams.get('year');
-
+      var timeout = 5;
+      while ( !($( ".week-picker").length) ) {
+        //note: check following method if errors on website
+        setTimeout(function() {
+        }, (100));
+        timeout--;
+        if (timeout < 1) {console.log("Failed to load the week-picker in time.");break;}
+      }
       $( ".week-picker" ).datepicker( "setDate", month + "/" + day + "/" + year );
       //window.setTimeout(function () {
       //        $('.week-picker').find('.ui-datepicker-current-day a').addClass('ui-state-active')
       //    }, 1);
-      $('.week-picker').find('.ui-datepicker-current-day a').trigger('click');
+      $(".week-picker").find('.ui-datepicker-current-day a').trigger('click');
+      //alert($( ".week-picker" ).datepicker( "getDate" ));
     });
 
     function formatDate(d) {
@@ -289,19 +296,7 @@ if ($_SESSION['role'] != 1) {
         startDateObj.setDate(startDateObj.getDate() + weekday.indexOf(dayOfWeekInt));
         startDate = startDateObj.toISOString().substring(0, 10);
 
-        var months=new Array(12);
-        months[0]="January";
-        months[1]="February";
-        months[2]="March";
-        months[3]="April";
-        months[4]="May";
-        months[5]="June";
-        months[6]="July";   
-        months[7]="August";   
-        months[8]="September";   
-        months[9]="October";   
-        months[10]="November";   
-        months[11]="December";
+        months = getMonths();
 
         var selectedCalendarElement = $('.ui-state-active:first').text();
         var selectedCalendarMonth = $('.ui-datepicker-month').text();
@@ -339,13 +334,37 @@ if ($_SESSION['role'] != 1) {
           stopDate: stopDate
         },
         success: function() {
-          location.reload();
+          //location.reload();
+          months = getMonths();
+          var selectedCalendarElement = $('.ui-state-active:first').text();
+          var selectedCalendarMonth = $('.ui-datepicker-month').text();
+          var selectedCalendarYear = $('.ui-datepicker-year').text();
+          selectedCalendarMonth = months.indexOf(selectedCalendarMonth) + 1;
+          window.location = "./schedule-admin.php?day=" + selectedCalendarElement + "&month=" + selectedCalendarMonth + "&year=" + selectedCalendarYear;
         },
         error: function() {
           stopLoader();
           alert("Failed to fill defaults");
         }
       });
+      
+    }
+
+    function getMonths() {
+      var months=new Array(12);
+          months[0]="January";
+          months[1]="February";
+          months[2]="March";
+          months[3]="April";
+          months[4]="May";
+          months[5]="June";
+          months[6]="July";   
+          months[7]="August";   
+          months[8]="September";   
+          months[9]="October";   
+          months[10]="November";   
+          months[11]="December";
+      return months;
     }
 
     function startLoader() {
